@@ -1,0 +1,48 @@
+name: Build and Deploy Page
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - results
+
+jobs:
+  build-and-deploy:
+    name: build-and-deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update;
+          DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends -yq libfontconfig1-dev
+      - name: Checkout Twitcher main branch
+        uses: actions/checkout@v4
+        with:
+          ref: "main"
+      - name: Checkout Twitcher results branch
+        uses: actions/checkout@v4
+        with:
+          ref: "results"
+          path: "results"
+      - name: Build Graphs
+        run: |
+          cargo run --bin graphs
+      - name: Build HTML
+        run: |
+          cargo run --bin index
+      - name: Prepare Site
+        run: |
+          mkdir site
+          mv index.html site/
+          mv graphs site/
+      - name: Store generated html
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
