@@ -82,7 +82,7 @@ fn main() {
         commit
     } else {
         let sh = Shell::new().unwrap();
-        let out = cmd!(sh, "git describe --always").output().unwrap();
+        let out = cmd!(sh, "git rev-parse HEAD").output().unwrap();
         let mut output = out.stdout;
         output.pop();
         String::from_utf8(output).unwrap()
