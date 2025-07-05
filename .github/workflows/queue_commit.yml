@@ -21,6 +21,10 @@ jobs:
         with:
           ref: "queue"
           path: "queue"
+      - uses: actions/checkout@v4
+        with:
+          ref: "results"
+          path: "results"
       - name: Queue new commit
         id: env
         run: |
@@ -28,14 +32,21 @@ jobs:
           if ls queue/$gitref 1> /dev/null 2>&1
           then
             echo "commit already queued"
-          else
-            cd queue
-            touch $gitref
-
-            git config user.name 'Workflow'
-            git config user.email '<>'
-
-            git add .
-            git commit -m "Queue new commit"
-            git push
+            exit 0
           fi
+          if find results/ | grep $gitref 1> /dev/null 2>&1
+          then
+            echo "commit already collected"
+            exit 0
+          fi
+
+          cd queue
+
+          touch $gitref
+
+          git config user.name 'Workflow'
+          git config user.email '<>'
+
+          git add .
+          git commit -m "Queue new commit"
+          git push
