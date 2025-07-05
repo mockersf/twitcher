@@ -11,8 +11,6 @@ gitref=`echo ${gitref#./queue/}`
 git clone git@github.com:bevyengine/bevy.git
 cd bevy
 git reset --hard $gitref
-
-cd bevy
 ../target/release/twitcher all
 cd ..
 
