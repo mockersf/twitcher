@@ -6,6 +6,11 @@ cargo build --release
 
 git clone -b queue git@github.com:mockersf/twitcher.git queue
 gitref=`find ./queue -type f  | grep -v .git  | head -n 1`
+if [ ! "$gitref" ]
+then
+    echo "no queued gitref found"
+    exit 1
+fi
 gitref=`echo ${gitref#./queue/}`
 
 git clone git@github.com:bevyengine/bevy.git
