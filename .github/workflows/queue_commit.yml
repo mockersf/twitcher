@@ -22,7 +22,7 @@ jobs:
       - name: Queue new commit
         id: env
         run: |
-          git=`git rev-parse HEAD`
+          gitref=`git rev-parse HEAD`
           if ls queue/$gitref 1> /dev/null 2>&1
           then
             echo "commit already queued"
@@ -37,13 +37,3 @@ jobs:
             git commit -m "Queue new commit"
             git push
           fi
-      - name: Store results in git
-        run: |
-          cd queue
-
-          git config user.name 'Workflow'
-          git config user.email '<>'
-
-          git add .
-          git commit -m "Update Results"
-          git push
