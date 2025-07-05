@@ -9,6 +9,8 @@ jobs:
   queue-commit:
     name: Queue Commit
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout Bevy main branch
         uses: actions/checkout@v4
