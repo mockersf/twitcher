@@ -8,6 +8,7 @@ git clone -b queue git@github.com:mockersf/twitcher.git queue
 gitref=`find ./queue -type f  | grep -v .git  | head -n 1`
 if [ ! "$gitref" ]
 then
+    rm -rf queue
     echo "no queued gitref found"
     exit 1
 fi
