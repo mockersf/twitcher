@@ -15,11 +15,6 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - name: Checkout Bevy main branch
-        uses: actions/checkout@v4
-        with:
-          repository: "bevyengine/bevy"
-          ref: "main"
       - name: Checkout Twitcher main branch
         uses: actions/checkout@v4
       - name: Checkout Twitcher results branch
