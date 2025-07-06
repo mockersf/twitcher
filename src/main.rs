@@ -87,6 +87,15 @@ fn main() {
         output.pop();
         String::from_utf8(output).unwrap()
     };
+    let commit_timestamp = {
+        let sh = Shell::new().unwrap();
+        let out = cmd!(sh, "git show --no-patch --format=%ct HEAD")
+            .output()
+            .unwrap();
+        let mut output = out.stdout;
+        output.pop();
+        String::from_utf8(output).unwrap().parse::<u128>().unwrap() * 1000
+    };
 
     let metrics_to_run = cli.command.to_metrics(true);
 
@@ -119,6 +128,7 @@ fn main() {
                 .duration_since(UNIX_EPOCH)
                 .unwrap()
                 .as_millis(),
+            commit_timestamp,
         },
     )
     .unwrap();
@@ -129,4 +139,5 @@ struct Stats {
     metrics: HashMap<String, u64>,
     commit: String,
     timestamp: u128,
+    commit_timestamp: u128,
 }
