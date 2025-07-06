@@ -10,3 +10,5 @@ serde_json = "1.0.140"
 toml = "0.8.23"
 xshell = "0.2.7"
 strum = { version = "0.27", features = ["derive"] }
+plotters = "0.3.7"
+tera = "1"

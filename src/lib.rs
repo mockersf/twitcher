@@ -2,6 +2,7 @@ use std::{collections::HashMap, path::PathBuf};
 
 pub mod binary_size;
 pub mod compile_time;
+pub mod stats;
 
 pub trait Metrics {
     fn prepare(&self);

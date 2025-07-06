@@ -7,9 +7,8 @@ use std::{
 };
 
 use clap::{Parser, Subcommand};
-use serde::Serialize;
 use strum::{EnumIter, IntoEnumIterator};
-use twitcher::{Metrics, binary_size, compile_time};
+use twitcher::{Metrics, binary_size, compile_time, stats::Stats};
 use xshell::{Shell, cmd};
 
 #[derive(Parser, Debug)]
@@ -122,12 +121,4 @@ fn main() {
         },
     )
     .unwrap();
-}
-
-#[derive(Serialize)]
-struct Stats {
-    metrics: HashMap<String, u64>,
-    commit: String,
-    timestamp: u128,
-    commit_timestamp: u128,
 }

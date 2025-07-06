@@ -1,0 +1,32 @@
+use std::{
+    collections::HashMap,
+    fs,
+    path::{Path, PathBuf},
+};
+
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct Stats {
+    pub metrics: HashMap<String, u64>,
+    pub commit: String,
+    pub timestamp: u128,
+    pub commit_timestamp: u128,
+}
+
+pub fn find_stats_files(root: &Path) -> Vec<PathBuf> {
+    let mut files = Vec::new();
+    if let Ok(entries) = fs::read_dir(root) {
+        for entry in entries {
+            if let Ok(entry) = entry {
+                if entry.file_type().unwrap().is_file() && entry.file_name() == "stats.json" {
+                    files.push(entry.path());
+                }
+                if entry.file_type().unwrap().is_dir() {
+                    files.extend(find_stats_files(&entry.path()));
+                }
+            }
+        }
+    }
+    files
+}

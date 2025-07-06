@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Bevy Bench Report</title>
+    </head>
+
+    <body>
+        {% for metric in metrics -%}
+        <div>
+            <img src="graphs/{{ metric }}.svg" alt="{{ metric }} graph" />
+        </div>
+        {% endfor %}
+    </body>
+</html>
