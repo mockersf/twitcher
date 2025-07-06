@@ -2,17 +2,15 @@ use std::{
     collections::HashMap,
     fs::File,
     io::BufWriter,
-    path::{Path, PathBuf},
+    path::Path,
     time::{SystemTime, UNIX_EPOCH},
 };
 
 use clap::{Parser, Subcommand};
 use serde::Serialize;
 use strum::{EnumIter, IntoEnumIterator};
+use twitcher::{Metrics, binary_size, compile_time};
 use xshell::{Shell, cmd};
-
-mod binary_size;
-mod compile_time;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -63,14 +61,6 @@ impl Commands {
             }
         }
     }
-}
-
-trait Metrics {
-    fn prepare(&self);
-    fn artifacts(&self) -> HashMap<String, PathBuf> {
-        HashMap::new()
-    }
-    fn collect(&self) -> HashMap<String, u64>;
 }
 
 fn main() {

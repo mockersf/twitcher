@@ -2,7 +2,7 @@
 
 set -x
 
-cargo build --release
+cargo build --release --bin collect
 
 git clone -b queue git@github.com:mockersf/twitcher.git queue
 gitref=`find ./queue -type f  | grep -v .git  | head -n 1`
@@ -17,7 +17,7 @@ gitref=`echo ${gitref#./queue/}`
 git clone git@github.com:bevyengine/bevy.git
 cd bevy
 git reset --hard $gitref
-../target/release/twitcher all
+../target/release/collect all
 cd ..
 
 git clone -b results git@github.com:mockersf/twitcher.git results
