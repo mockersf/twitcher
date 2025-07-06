@@ -25,7 +25,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .iter()
             .map(|stat| {
                 (
-                    stat.commit_timestamp,
+                    chrono::DateTime::from_timestamp_millis(stat.commit_timestamp as i64).unwrap(),
                     stat.commit.clone(),
                     stat.metrics[metric].clone(),
                 )
