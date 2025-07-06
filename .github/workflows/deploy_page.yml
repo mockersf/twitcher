@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update;
-          DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends -yq fontconfig
+          DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends -yq libfontconfig1-dev
       - name: Checkout Twitcher main branch
         uses: actions/checkout@v4
       - name: Checkout Twitcher results branch
