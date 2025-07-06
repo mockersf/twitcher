@@ -29,6 +29,7 @@ git push
 cd ..
 
 cd queue
+git pull
 rm $gitref
 git add .
 git commit -m "Done for $gitref"
