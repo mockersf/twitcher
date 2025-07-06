@@ -2,6 +2,8 @@
 
 set -x
 
+git pull
+
 cargo build --release --bin collect
 
 git clone -b queue git@github.com:mockersf/twitcher.git queue
