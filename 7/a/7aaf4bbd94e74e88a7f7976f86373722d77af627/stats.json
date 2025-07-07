@@ -1,11 +1,11 @@
 {
   "metrics": {
-    "native.size": 101701256,
     "compile-time.median": 73297,
     "compile-time.mean": 73256,
     "compile-time.stddev": 197,
     "compile-time.user": 1406838,
-    "compile-time.system": 39941
+    "compile-time.system": 39941,
+    "native-unix-x86_64.size": 101701256
   },
   "commit": "7aaf4bbd94e74e88a7f7976f86373722d77af627",
   "timestamp": 1751755851920,

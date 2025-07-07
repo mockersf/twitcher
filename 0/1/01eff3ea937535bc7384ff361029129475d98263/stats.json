@@ -1,1 +1,13 @@
-{"metrics":{"native.size":102748568,"compile-time.median":73672,"compile-time.stddev":184,"compile-time.mean":73627,"compile-time.user":1408546,"compile-time.system":39627},"commit":"01eff3ea937535bc7384ff361029129475d98263","timestamp":1751796628273,"commit_timestamp":1751234977000}
+{
+  "metrics": {
+    "compile-time.median": 73672,
+    "compile-time.stddev": 184,
+    "compile-time.mean": 73627,
+    "compile-time.user": 1408546,
+    "compile-time.system": 39627,
+    "native-unix-x86_64.size": 102748568
+  },
+  "commit": "01eff3ea937535bc7384ff361029129475d98263",
+  "timestamp": 1751796628273,
+  "commit_timestamp": 1751234977000
+}
