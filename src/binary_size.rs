@@ -33,6 +33,13 @@ impl Metrics for BinarySize {
         let target_dir = Path::new("target/release/examples");
         let file_path = target_dir.join(&self.example_name);
         let size = file_path.metadata().unwrap().len();
-        HashMap::from([("native.size".to_string(), size)])
+        HashMap::from([(
+            format!(
+                "native-{}-{}.size",
+                std::env::consts::FAMILY,
+                std::env::consts::ARCH
+            ),
+            size,
+        )])
     }
 }
