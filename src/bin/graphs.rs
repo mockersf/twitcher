@@ -23,12 +23,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("Metric: {}", metric);
         let mut data = stats
             .iter()
-            .map(|stat| {
-                (
-                    chrono::DateTime::from_timestamp_millis(stat.commit_timestamp as i64).unwrap(),
-                    stat.commit.clone(),
-                    stat.metrics[metric].clone(),
-                )
+            .flat_map(|stat| {
+                stat.metrics.get(metric).map(|value| {
+                    (
+                        chrono::DateTime::from_timestamp_millis(stat.commit_timestamp as i64)
+                            .unwrap(),
+                        stat.commit.clone(),
+                        *value,
+                    )
+                })
             })
             .collect::<Vec<_>>();
 
