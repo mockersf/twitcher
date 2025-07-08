@@ -28,7 +28,10 @@ impl CompileTime {
 
 impl Metrics for CompileTime {
     fn prepare(&self) {
-        let command = format!("cargo build --release --example {}", self.example_name);
+        let command = format!(
+            "cargo build --jobs {} --release --example {}",
+            self.nb_jobs, self.example_name
+        );
         let sh = Shell::new().unwrap();
         let json = format!("build-{}.json", self.nb_jobs);
         cmd!(
