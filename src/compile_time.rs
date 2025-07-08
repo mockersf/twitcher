@@ -30,9 +30,10 @@ impl Metrics for CompileTime {
     fn prepare(&self) {
         let command = format!("cargo build --release --example {}", self.example_name);
         let sh = Shell::new().unwrap();
+        let json = format!("build-{}.json", self.nb_jobs);
         cmd!(
             sh,
-            "hyperfine --export-json build.json --prepare 'cargo clean; sleep 2' {command}"
+            "hyperfine --export-json {json} --prepare 'cargo clean; sleep 2' {command}"
         )
         .run()
         .unwrap();
@@ -41,7 +42,7 @@ impl Metrics for CompileTime {
     fn artifacts(&self) -> HashMap<String, PathBuf> {
         HashMap::from([(
             "compile-time.stats".to_string(),
-            Path::new("build.json").to_path_buf(),
+            Path::new(&format!("build-{}.json", self.nb_jobs)).to_path_buf(),
         )])
     }
 
