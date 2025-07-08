@@ -46,7 +46,10 @@ impl Commands {
                 vec![Box::new(binary_size::BinarySize::on(example))]
             }
             Commands::CompileTime { example } => {
-                vec![Box::new(compile_time::CompileTime::on(example))]
+                vec![
+                    Box::new(compile_time::CompileTime::on(example.clone(), 8)),
+                    Box::new(compile_time::CompileTime::on(example, 16)),
+                ]
             }
             Commands::All => {
                 if recur {

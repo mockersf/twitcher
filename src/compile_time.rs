@@ -10,16 +10,18 @@ use crate::Metrics;
 
 pub struct CompileTime {
     pub example_name: String,
+    pub nb_jobs: u32,
 }
 
 impl CompileTime {
-    pub fn on(example_name: String) -> Self {
+    pub fn on(example_name: String, nb_jobs: u32) -> Self {
         Self {
             example_name: if example_name == "" {
                 "breakout".to_string()
             } else {
                 example_name
             },
+            nb_jobs: if nb_jobs == 0 { 8 } else { nb_jobs },
         }
     }
 }
@@ -44,28 +46,42 @@ impl Metrics for CompileTime {
     }
 
     fn collect(&self) -> HashMap<String, u64> {
+        let key = format!(
+            "compile-time-{}-{}-{}",
+            std::env::consts::FAMILY,
+            std::env::consts::ARCH,
+            self.nb_jobs
+        );
         let results: Hyperfine =
             serde_json::from_reader(std::fs::File::open("build.json").unwrap()).unwrap();
         HashMap::from([
             (
-                "compile-time.mean".to_string(),
+                format!("{key}.mean"),
                 (results.results[0].mean * 1000.0) as u64,
             ),
             (
-                "compile-time.stddev".to_string(),
+                format!("{key}.stddev"),
                 (results.results[0].stddev.unwrap_or_default() * 1000.0) as u64,
             ),
             (
-                "compile-time.median".to_string(),
+                format!("{key}.median"),
                 (results.results[0].median * 1000.0) as u64,
             ),
             (
-                "compile-time.user".to_string(),
+                format!("{key}.user"),
                 (results.results[0].user * 1000.0) as u64,
             ),
             (
-                "compile-time.system".to_string(),
+                format!("{key}.system"),
                 (results.results[0].system * 1000.0) as u64,
+            ),
+            (
+                format!("{key}.min"),
+                (results.results[0].min * 1000.0) as u64,
+            ),
+            (
+                format!("{key}.max"),
+                (results.results[0].max * 1000.0) as u64,
             ),
         ])
     }
@@ -78,6 +94,8 @@ struct Hyperfine {
 #[derive(Deserialize)]
 struct HyperfineResults {
     mean: f32,
+    max: f32,
+    min: f32,
     stddev: Option<f32>,
     median: f32,
     user: f32,
