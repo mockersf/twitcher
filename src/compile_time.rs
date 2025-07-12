@@ -56,8 +56,10 @@ impl Metrics for CompileTime {
             std::env::consts::ARCH,
             self.nb_jobs
         );
-        let results: Hyperfine =
-            serde_json::from_reader(std::fs::File::open("build.json").unwrap()).unwrap();
+        let results: Hyperfine = serde_json::from_reader(
+            std::fs::File::open(&format!("build-{}.json", self.nb_jobs)).unwrap(),
+        )
+        .unwrap();
         HashMap::from([
             (
                 format!("{key}.mean"),
