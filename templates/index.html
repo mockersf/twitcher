@@ -2,9 +2,73 @@
 <html>
     <head>
         <title>Bevy Bench Report</title>
+        <style>
+            #about a {
+                background: #000;
+                color: #fff;
+                text-decoration: none;
+                font-family: arial, sans-serif;
+                text-align: center;
+                font-weight: bold;
+                /* padding: 5px 40px; */
+                font-size: 1rem;
+                line-height: 2rem;
+                position: relative;
+                transition: 0.5s;
+            }
+
+            #about a:hover {
+                background: #c11;
+                color: #fff;
+            }
+
+            #about a::before,
+            #about a::after {
+                content: "";
+                width: 100%;
+                display: block;
+                position: absolute;
+                top: 1px;
+                left: 0;
+                height: 1px;
+                background: #fff;
+            }
+
+            #about a::after {
+                bottom: 1px;
+                top: auto;
+            }
+
+            #about {
+                position: fixed;
+                display: block;
+                top: -20px;
+                right: 0;
+                width: 200px;
+                overflow: hidden;
+                height: 200px;
+                z-index: 9999;
+            }
+
+            #about a {
+                width: 200px;
+                position: absolute;
+                top: 40px;
+                right: -60px;
+                transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                -moz-transform: rotate(45deg);
+                -o-transform: rotate(45deg);
+                box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+            }
+        </style>
     </head>
 
     <body>
+        <span id="about">
+            <a href="https://github.com/bevyengine/twitcher">About</a>
+        </span>
         {% for metric in metrics -%}
         <div>
             <img src="graphs/{{ metric }}.svg" alt="{{ metric }} graph" />
