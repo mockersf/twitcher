@@ -2,7 +2,7 @@
 
 set -x
 
-git clone -b results git@github.com:mockersf/twitcher.git results
+git clone -b results git@github.com:bevyengine/twitcher.git results
 
 for stats in `find ./results -type f -name 'stats.json'`
 do

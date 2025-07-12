@@ -6,7 +6,7 @@ git pull
 
 cargo build --release --bin collect
 
-git clone -b queue git@github.com:mockersf/twitcher.git queue
+git clone -b queue git@github.com:bevyengine/twitcher.git queue
 gitref=`find ./queue -type f  | grep -v .git  | head -n 1`
 if [ ! "$gitref" ]
 then
@@ -22,7 +22,7 @@ git reset --hard $gitref
 ../target/release/collect all
 cd ..
 
-git clone -b results git@github.com:mockersf/twitcher.git results
+git clone -b results git@github.com:bevyengine/twitcher.git results
 cp -r bevy/results/* results
 cd results
 git add .

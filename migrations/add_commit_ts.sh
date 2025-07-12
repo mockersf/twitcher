@@ -4,7 +4,7 @@ set -x
 
 git clone git@github.com:bevyengine/bevy
 
-git clone -b results git@github.com:mockersf/twitcher.git results
+git clone -b results git@github.com:bevyengine/twitcher.git results
 
 cd bevy
 for stats in `find ../results -type f -name 'stats.json'`
