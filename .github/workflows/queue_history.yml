@@ -1,0 +1,87 @@
+name: Queue Historic Commits From Bevy Main
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 */3 * * *"
+
+jobs:
+  check-queue:
+    name: Check Queue
+    runs-on: ubuntu-latest
+    outputs:
+      queue_is_empty: ${{ steps.check_queue.outputs.QUEUE_IS_EMPTY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "queue"
+          path: "queue"
+      - name: Check if queue is empty
+        id: check_queue
+        run: |
+          if [ `ls -1 | wc -l` -eq 0 ]; then
+            echo "Queue is empty"
+            echo "QUEUE_IS_EMPTY=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Queue is not empty"
+            echo "QUEUE_IS_EMPTY=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  queue-commits:
+    needs: [check-queue]
+    if: needs.check-queue.outputs.queue_is_empty == 'true'
+    name: Queue Commits
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Bevy main branch
+        uses: actions/checkout@v4
+        with:
+          repository: "bevyengine/bevy"
+          ref: "main"
+      - uses: actions/checkout@v4
+        with:
+          ref: "queue"
+          path: "queue"
+      - uses: actions/checkout@v4
+        with:
+          ref: "results"
+          path: "results"
+      - name: Queue historic commits
+        id: queue
+        run: |
+          cd bevy
+          added=0
+          for step in `seq 1 5`
+          do
+              count=$((step * 100))
+              i=0
+              for commit in `git log --no-abbrev-commit --pretty=oneline | cut -d ' ' -f 1 | head -n $count`
+              do
+                  if find ../results/ | grep $commit 1> /dev/null 2>&1
+                  then
+                      :
+                  else
+                      if [ $((RANDOM % (step * 10))) -eq 0 ]
+                      then
+                          i=$((i + 1))
+                          touch ../queue/$commit
+                      fi
+                  fi
+              done
+              added=$((added + i))
+              echo "Added $i commits over the last $count"
+          done
+          echo "ADDED=$added" >> "$GITHUB_OUTPUT"
+
+      - name: Commit
+        if: steps.queue.outputs.ADDED > 0
+        run: |
+          cd queue
+          git config user.name 'Workflow'
+          git config user.email '<>'
+
+          git add .
+          git commit -m "Queue historic commits"
+          git push
