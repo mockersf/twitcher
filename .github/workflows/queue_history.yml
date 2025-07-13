@@ -15,7 +15,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: "queue"
-          path: "queue"
       - name: Check if queue is empty
         id: check_queue
         run: |
