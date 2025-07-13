@@ -39,6 +39,7 @@ jobs:
         with:
           repository: "bevyengine/bevy"
           ref: "main"
+          path: "bevy"
       - uses: actions/checkout@v4
         with:
           ref: "queue"
