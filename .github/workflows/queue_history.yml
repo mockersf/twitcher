@@ -40,6 +40,7 @@ jobs:
           repository: "bevyengine/bevy"
           ref: "main"
           path: "bevy"
+          fetch-depth: 1000
       - uses: actions/checkout@v4
         with:
           ref: "queue"
@@ -51,7 +52,6 @@ jobs:
       - name: Queue historic commits
         id: queue
         run: |
-          set -x
           cd bevy
           added=0
           for step in `seq 1 5`
@@ -60,15 +60,12 @@ jobs:
               i=0
               for commit in `git log --no-abbrev-commit --pretty=oneline | cut -d ' ' -f 1 | head -n $count`
               do
-                  echo $commit
                   if find ../results/ | grep $commit 1> /dev/null 2>&1
                   then
-                      echo "  Already done"
+                      :
                   else
-                      echo "  New"
                       if [ $((RANDOM % (step * 10))) -eq 0 ]
                       then
-                          echo "    Queued"
                           i=$((i + 1))
                           touch ../queue/$commit
                       fi
