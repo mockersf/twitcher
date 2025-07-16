@@ -8,7 +8,7 @@ use std::{
 
 use clap::{Parser, Subcommand};
 use strum::{EnumIter, IntoEnumIterator};
-use twitcher::{Metrics, binary_size, compile_time, stats::Stats};
+use twitcher::{Metrics, binary_size, compile_time, crate_compile_time, stats::Stats};
 use xshell::{Shell, cmd};
 
 #[derive(Parser, Debug)]
@@ -36,6 +36,7 @@ enum Commands {
         #[arg(short, long, default_value = "breakout")]
         example: String,
     },
+    CrateCompileTime,
     All,
 }
 
@@ -50,6 +51,9 @@ impl Commands {
                     Box::new(compile_time::CompileTime::on(example.clone(), 8)),
                     Box::new(compile_time::CompileTime::on(example, 16)),
                 ]
+            }
+            Commands::CrateCompileTime => {
+                vec![Box::new(crate_compile_time::CrateCompileTime::on(16))]
             }
             Commands::All => {
                 if recur {

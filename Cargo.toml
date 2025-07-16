@@ -13,3 +13,4 @@ strum = { version = "0.27", features = ["derive"] }
 plotters = "0.3.7"
 tera = "1"
 chrono = "0.4.41"
+statistical = "1.0.0"

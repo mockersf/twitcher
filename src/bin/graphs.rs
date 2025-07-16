@@ -1,4 +1,5 @@
 use std::{
+    collections::HashSet,
     fs::{self, File},
     io::BufReader,
     path::Path,
@@ -18,8 +19,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         })
         .collect();
 
-    let zero = stats.first().unwrap();
-    for metric in zero.metrics.keys() {
+    let keys: HashSet<_> = stats.iter().flat_map(|stat| stat.metrics.keys()).collect();
+    for metric in keys {
         println!("Metric: {}", metric);
         let mut data = stats
             .iter()
