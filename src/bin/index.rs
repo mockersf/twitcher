@@ -1,4 +1,4 @@
-use std::{fs::File, io::BufReader, path::Path};
+use std::{collections::HashSet, fs::File, io::BufReader, path::Path};
 
 use tera::Tera;
 use twitcher::stats::{Stats, find_stats_files};
@@ -8,15 +8,17 @@ fn main() {
     // Prepare the context with some data
     let mut context = tera::Context::new();
 
-    let stats: Stats = find_stats_files(Path::new("results"))
-        .first()
+    let stats: Vec<Stats> = find_stats_files(Path::new("results"))
+        .iter()
         .map(|path| {
             let file = File::open(path).unwrap();
             let reader = BufReader::new(file);
             serde_json::from_reader(reader).unwrap()
         })
-        .unwrap();
-    let mut metrics = stats.metrics.keys().cloned().collect::<Vec<_>>();
+        .collect();
+
+    let keys: HashSet<_> = stats.iter().flat_map(|stat| stat.metrics.keys()).collect();
+    let mut metrics: Vec<_> = keys.iter().collect();
     metrics.sort();
     context.insert("metrics", &metrics);
 
