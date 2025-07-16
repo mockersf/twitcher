@@ -12,6 +12,20 @@ pub struct Stats {
     pub commit: String,
     pub timestamp: u128,
     pub commit_timestamp: u128,
+    pub rust: Rust,
+    pub host: Host,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct Rust {
+    pub stable: String,
+    pub nightly: String,
+}
+
+#[derive(Serialize, Deserialize, Clone)]
+pub struct Host {
+    pub hostname: String,
+    pub os_version: String,
 }
 
 pub fn find_stats_files(root: &Path) -> Vec<PathBuf> {
