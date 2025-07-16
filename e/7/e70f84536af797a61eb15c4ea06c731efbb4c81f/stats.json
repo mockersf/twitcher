@@ -1,1 +1,26 @@
-{"metrics":{"compile-time-unix-x86_64-8.max":110746,"compile-time-unix-x86_64-16.median":72587,"compile-time-unix-x86_64-16.system":27455,"native-unix-x86_64.size":99417816,"compile-time-unix-x86_64-16.max":72976,"compile-time-unix-x86_64-16.mean":72522,"compile-time-unix-x86_64-8.system":22033,"compile-time-unix-x86_64-16.user":1044277,"compile-time-unix-x86_64-8.median":110580,"compile-time-unix-x86_64-8.user":833888,"compile-time-unix-x86_64-8.stddev":122,"compile-time-unix-x86_64-8.min":110336,"compile-time-unix-x86_64-16.min":71797,"compile-time-unix-x86_64-16.stddev":377,"compile-time-unix-x86_64-8.mean":110562},"commit":"e70f84536af797a61eb15c4ea06c731efbb4c81f","timestamp":1752125608791,"commit_timestamp":1751488717000}
+{
+  "metrics": {
+    "compile-time-unix-x86_64-8.max": 110746,
+    "compile-time-unix-x86_64-16.median": 72587,
+    "compile-time-unix-x86_64-16.system": 27455,
+    "native-unix-x86_64.size": 99417816,
+    "compile-time-unix-x86_64-16.max": 72976,
+    "compile-time-unix-x86_64-16.mean": 72522,
+    "compile-time-unix-x86_64-8.system": 22033,
+    "compile-time-unix-x86_64-16.user": 1044277,
+    "compile-time-unix-x86_64-8.median": 110580,
+    "compile-time-unix-x86_64-8.user": 833888,
+    "compile-time-unix-x86_64-8.stddev": 122,
+    "compile-time-unix-x86_64-8.min": 110336,
+    "compile-time-unix-x86_64-16.min": 71797,
+    "compile-time-unix-x86_64-16.stddev": 377,
+    "compile-time-unix-x86_64-8.mean": 110562
+  },
+  "commit": "e70f84536af797a61eb15c4ea06c731efbb4c81f",
+  "timestamp": 1752125608791,
+  "commit_timestamp": 1751488717000,
+  "rust": {
+    "stable": "rustc 1.88.0 (6b00bc388 2025-06-23)",
+    "nightly": "rustc 1.90.0-nightly (3014e79f9 2025-07-15)"
+  }
+}
