@@ -10,7 +10,7 @@ use clap::{Parser, Subcommand};
 use strum::{EnumIter, IntoEnumIterator};
 use twitcher::{
     Metrics, binary_size, compile_time, crate_compile_time,
-    stats::{Rust, Stats},
+    stats::{Host, Rust, Stats},
 };
 use xshell::{Shell, cmd};
 
@@ -130,6 +130,14 @@ fn main() {
     .unwrap()
     .trim()
     .to_string();
+    let hostname = String::from_utf8(cmd!(sh, "hostname").output().unwrap().stdout)
+        .unwrap()
+        .trim()
+        .to_string();
+    let os_version = String::from_utf8(cmd!(sh, "uname -r").output().unwrap().stdout)
+        .unwrap()
+        .trim()
+        .to_string();
 
     let file = File::create(output_prefix.join("stats.json")).unwrap();
     let mut writer = BufWriter::new(file);
@@ -144,6 +152,10 @@ fn main() {
                 .as_millis(),
             commit_timestamp,
             rust: Rust { stable, nightly },
+            host: Host {
+                hostname,
+                os_version,
+            },
         },
     )
     .unwrap();

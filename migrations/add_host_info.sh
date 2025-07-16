@@ -4,23 +4,23 @@ set -x
 
 git clone -b results git@github.com:bevyengine/twitcher.git results
 
-stable=`rustc --version`
-nightly=`rustc +nightly --version`
+hostname=`hostname`
+os_version=`uname -r`
 
 for stats in `find ./results -type f -name 'stats.json'`
 do
     echo $stats
     tmp=`mktemp`
-    jq ".rust.stable = \"$stable\"" < $stats > $tmp
+    jq ".host.hostname = \"$hostname\"" < $stats > $tmp
     mv $tmp $stats
     tmp=`mktemp`
-    jq ".rust.nightly = \"$nightly\"" < $stats > $tmp
+    jq ".host.os_version = \"$os_version\"" < $stats > $tmp
     mv $tmp $stats
 done
 
 cd results
 git add .
-git commit -m "Add toolchain version"
+git commit -m "Add host infos"
 git push
 cd ..
 rm -rf results
