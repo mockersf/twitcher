@@ -10,7 +10,7 @@ use twitcher::stats::{Stats, find_stats_files};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     fs::create_dir_all("graphs").unwrap();
-    let stats: Vec<Stats> = find_stats_files(&Path::new("results"))
+    let stats: Vec<Stats> = find_stats_files(Path::new("results"))
         .iter()
         .map(|path| {
             let file = File::open(path).unwrap();
@@ -21,7 +21,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let keys: HashSet<_> = stats.iter().flat_map(|stat| stat.metrics.keys()).collect();
     for metric in keys {
-        println!("Metric: {}", metric);
+        println!("Metric: {metric}");
         let mut data = stats
             .iter()
             .flat_map(|stat| {
@@ -40,7 +40,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let min = data.iter().min_by_key(|d| d.2).unwrap().2;
         let max = data.iter().max_by_key(|d| d.2).unwrap().2;
 
-        let out = format!("graphs/{}.svg", metric);
+        let out = format!("graphs/{metric}.svg");
 
         let root = SVGBackend::new(&out, (1536, 512)).into_drawing_area();
         root.fill(&WHITE)?;
@@ -58,7 +58,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .unwrap();
 
         root.present().expect("Unable to write result to file, please make sure 'plotters-doc-data' dir exists under current dir");
-        println!("Result has been saved to {}", out);
+        println!("Result has been saved to {out}");
     }
 
     Ok(())

@@ -8,7 +8,7 @@ fn main() {
     // Prepare the context with some data
     let mut context = tera::Context::new();
 
-    let stats: Stats = find_stats_files(&Path::new("results"))
+    let stats: Stats = find_stats_files(Path::new("results"))
         .first()
         .map(|path| {
             let file = File::open(path).unwrap();

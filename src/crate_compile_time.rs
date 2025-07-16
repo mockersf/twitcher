@@ -79,7 +79,7 @@ impl Metrics for CrateCompileTime {
         );
 
         let timings: HashMap<String, Vec<CrateTiming>> = serde_json::from_reader(
-            std::fs::File::open(&format!("crate-stats-{}.json", self.nb_jobs)).unwrap(),
+            std::fs::File::open(format!("crate-stats-{}.json", self.nb_jobs)).unwrap(),
         )
         .unwrap();
         timings
@@ -91,35 +91,35 @@ impl Metrics for CrateCompileTime {
                 statistical::mean(&durations);
                 vec![
                     (
-                        format!("{}.{}.mean", key, crate_name),
+                        format!("{key}.{crate_name}.mean"),
                         (statistical::mean(&durations) * 1000.0) as u64,
                     ),
                     (
-                        format!("{}.{}.median", key, crate_name),
+                        format!("{key}.{crate_name}.median"),
                         (statistical::median(&durations) * 1000.0) as u64,
                     ),
                     (
-                        format!("{}.{}.min", key, crate_name),
+                        format!("{key}.{crate_name}.min"),
                         (durations.iter().map(|d| (d * 1000.0) as u64).min().unwrap()),
                     ),
                     (
-                        format!("{}.{}.max", key, crate_name),
+                        format!("{key}.{crate_name}.max"),
                         (durations.iter().map(|d| (d * 1000.0) as u64).max().unwrap()),
                     ),
                     (
-                        format!("{}.{}.std_dev", key, crate_name),
+                        format!("{key}.{crate_name}.std_dev"),
                         (statistical::standard_deviation(&durations, None) * 1000.0) as u64,
                     ),
                     (
-                        format!("{}.{}.rmeta-mean", key, crate_name),
+                        format!("{key}.{crate_name}.rmeta-mean"),
                         (statistical::mean(&rmeta_times) * 1000.0) as u64,
                     ),
                     (
-                        format!("{}.{}.rmeta-median", key, crate_name),
+                        format!("{key}.{crate_name}.rmeta-median"),
                         (statistical::median(&rmeta_times) * 1000.0) as u64,
                     ),
                     (
-                        format!("{}.{}.rmeta-min", key, crate_name),
+                        format!("{key}.{crate_name}.rmeta-min"),
                         (rmeta_times
                             .iter()
                             .map(|d| (d * 1000.0) as u64)
@@ -127,7 +127,7 @@ impl Metrics for CrateCompileTime {
                             .unwrap()),
                     ),
                     (
-                        format!("{}.{}.rmeta-max", key, crate_name),
+                        format!("{key}.{crate_name}.rmeta-max"),
                         (rmeta_times
                             .iter()
                             .map(|d| (d * 1000.0) as u64)
@@ -135,7 +135,7 @@ impl Metrics for CrateCompileTime {
                             .unwrap()),
                     ),
                     (
-                        format!("{}.{}.rmeta-std_dev", key, crate_name),
+                        format!("{key}.{crate_name}.rmeta-std_dev"),
                         (statistical::standard_deviation(&rmeta_times, None) * 1000.0) as u64,
                     ),
                 ]

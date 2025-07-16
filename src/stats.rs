@@ -17,14 +17,12 @@ pub struct Stats {
 pub fn find_stats_files(root: &Path) -> Vec<PathBuf> {
     let mut files = Vec::new();
     if let Ok(entries) = fs::read_dir(root) {
-        for entry in entries {
-            if let Ok(entry) = entry {
-                if entry.file_type().unwrap().is_file() && entry.file_name() == "stats.json" {
-                    files.push(entry.path());
-                }
-                if entry.file_type().unwrap().is_dir() {
-                    files.extend(find_stats_files(&entry.path()));
-                }
+        for entry in entries.flatten() {
+            if entry.file_type().unwrap().is_file() && entry.file_name() == "stats.json" {
+                files.push(entry.path());
+            }
+            if entry.file_type().unwrap().is_dir() {
+                files.extend(find_stats_files(&entry.path()));
             }
         }
     }

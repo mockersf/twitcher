@@ -11,7 +11,7 @@ pub struct BinarySize {
 impl BinarySize {
     pub fn on(example_name: String) -> Self {
         Self {
-            example_name: if example_name == "" {
+            example_name: if example_name.is_empty() {
                 "breakout".to_string()
             } else {
                 example_name
