@@ -41,6 +41,7 @@ enum Commands {
 }
 
 impl Commands {
+    #[allow(clippy::wrong_self_convention)]
     fn to_metrics(self, recur: bool) -> Vec<Box<dyn Metrics>> {
         match self {
             Commands::BinarySize { example } => {
@@ -58,8 +59,7 @@ impl Commands {
             Commands::All => {
                 if recur {
                     Commands::iter()
-                        .map(|command| command.to_metrics(false))
-                        .flatten()
+                        .flat_map(|command| command.to_metrics(false))
                         .collect()
                 } else {
                     vec![]
@@ -96,7 +96,7 @@ fn main() {
     let metrics_to_run = cli.command.to_metrics(true);
 
     let output_prefix = Path::new(&cli.out)
-        .join(commit.chars().nth(0).unwrap().to_string())
+        .join(commit.chars().next().unwrap().to_string())
         .join(commit.chars().nth(1).unwrap().to_string())
         .join(&commit);
 

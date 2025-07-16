@@ -16,7 +16,7 @@ pub struct CompileTime {
 impl CompileTime {
     pub fn on(example_name: String, nb_jobs: u32) -> Self {
         Self {
-            example_name: if example_name == "" {
+            example_name: if example_name.is_empty() {
                 "breakout".to_string()
             } else {
                 example_name
@@ -57,7 +57,7 @@ impl Metrics for CompileTime {
             self.nb_jobs
         );
         let results: Hyperfine = serde_json::from_reader(
-            std::fs::File::open(&format!("build-{}.json", self.nb_jobs)).unwrap(),
+            std::fs::File::open(format!("build-{}.json", self.nb_jobs)).unwrap(),
         )
         .unwrap();
         HashMap::from([
