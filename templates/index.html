@@ -70,6 +70,7 @@
             <a href="https://github.com/bevyengine/twitcher">About</a>
         </span>
         {% for metric in metrics -%}
+        <a href="#{{metric}}" id="{{metric}}">{{metric}}</a>
         <div>
             <img src="graphs/{{ metric }}.svg" alt="{{ metric }} graph" />
         </div>
