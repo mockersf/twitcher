@@ -30,6 +30,11 @@ jobs:
         with:
           components: clippy
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update;
+          DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends -yq libfontconfig1-dev
+
       - name: Run clippy
         run: |
           cargo clippy -- -D warnings
@@ -43,6 +48,11 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
+      - name: Install dependencies
+        run: |
+          sudo apt-get update;
+          DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends -yq libfontconfig1-dev
+
       - name: Check
         run: |
           cargo check
@@ -55,6 +65,11 @@ jobs:
         uses: actions/checkout@v4
 
       - uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update;
+          DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends -yq libfontconfig1-dev
 
       - name: Test
         run: |
