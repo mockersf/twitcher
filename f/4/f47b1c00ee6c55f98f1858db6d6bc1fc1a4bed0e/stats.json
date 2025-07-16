@@ -22,5 +22,9 @@
   "rust": {
     "stable": "rustc 1.88.0 (6b00bc388 2025-06-23)",
     "nightly": "rustc 1.90.0-nightly (3014e79f9 2025-07-15)"
+  },
+  "host": {
+    "hostname": "bevy-bench-01",
+    "os_version": "6.11.0-29-generic"
   }
 }
