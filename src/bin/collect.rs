@@ -8,7 +8,10 @@ use std::{
 
 use clap::{Parser, Subcommand};
 use strum::{EnumIter, IntoEnumIterator};
-use twitcher::{Metrics, binary_size, compile_time, crate_compile_time, stats::Stats};
+use twitcher::{
+    Metrics, binary_size, compile_time, crate_compile_time,
+    stats::{Rust, Stats},
+};
 use xshell::{Shell, cmd};
 
 #[derive(Parser, Debug)]
@@ -113,6 +116,21 @@ fn main() {
         })
         .collect();
 
+    let sh = Shell::new().unwrap();
+    let stable = String::from_utf8(cmd!(sh, "rustc --version").output().unwrap().stdout)
+        .unwrap()
+        .trim()
+        .to_string();
+    let nightly = String::from_utf8(
+        cmd!(sh, "rustc +nightly --version")
+            .output()
+            .unwrap()
+            .stdout,
+    )
+    .unwrap()
+    .trim()
+    .to_string();
+
     let file = File::create(output_prefix.join("stats.json")).unwrap();
     let mut writer = BufWriter::new(file);
     serde_json::to_writer(
@@ -125,6 +143,7 @@ fn main() {
                 .unwrap()
                 .as_millis(),
             commit_timestamp,
+            rust: Rust { stable, nightly },
         },
     )
     .unwrap();
