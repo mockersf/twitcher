@@ -18,7 +18,6 @@ gitref=`find results -mindepth 3 -maxdepth 3 '!' -exec test -e "{}/crate-compile
 
 git reset --hard $gitref
 ../target/release/collect --merge-results crate-compile-time
-cd ..
 
 cd results
 git add .
