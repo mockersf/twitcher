@@ -21,6 +21,10 @@ struct Cli {
     #[arg(short, long)]
     commit: Option<String>,
 
+    /// Merge results instead of overwrite
+    #[arg(short, long)]
+    merge_results: bool,
+
     /// Target folder for results
     #[arg(short, long, default_value = "results")]
     out: String,
@@ -103,7 +107,7 @@ fn main() {
         .join(commit.chars().nth(1).unwrap().to_string())
         .join(&commit);
 
-    let metrics: HashMap<String, u64> = metrics_to_run
+    let mut metrics: HashMap<String, u64> = metrics_to_run
         .iter()
         .flat_map(|m| {
             m.prepare();
@@ -138,6 +142,18 @@ fn main() {
         .unwrap()
         .trim()
         .to_string();
+
+    if cli.merge_results {
+        if let Ok(file) = File::open(output_prefix.join("stats.json")) {
+            let previous_stats: Result<Stats, _> = serde_json::from_reader(file);
+            if let Ok(mut previous_stats) = previous_stats {
+                for (key, value) in metrics {
+                    previous_stats.metrics.insert(key, value);
+                }
+                metrics = previous_stats.metrics;
+            }
+        }
+    }
 
     let file = File::create(output_prefix.join("stats.json")).unwrap();
     let mut writer = BufWriter::new(file);
